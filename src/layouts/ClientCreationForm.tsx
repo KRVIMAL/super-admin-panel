@@ -408,7 +408,7 @@ export default function ClientCreationForm() {
                                     <button
                                       type="button"
                                       onClick={() => removePayloadField(resource, permission, index, key)}
-                                      className="text-red-500 hover:text-red-700"
+                                      className="text-red-500 hover:text-red-700 "
                                     >
                                       ×
                                     </button>
