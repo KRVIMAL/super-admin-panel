@@ -37,66 +37,11 @@ const Header: React.FC = () => {
               alt="Company Logo"
               className="h-15 w-20"
             />
-            <span className="text-sm font-semibold text-gray-800">
-              developers
-            </span>
           </div>
-
-          {/* Navigation Links */}
-          <nav className="flex items-center space-x-4">
-            <a
-              href="/guides"
-              className="text-sm text-gray-600 transition hover:text-gray-800"
-            >
-              Guides
-            </a>
-            <a
-              href="/recipes"
-              className="text-sm text-gray-600 transition hover:text-gray-800"
-            >
-              Recipes
-            </a>
-            <a
-              href="/api-reference"
-              className="text-sm text-gray-600 transition hover:text-gray-800"
-            >
-              <span className="rounded-md bg-gray-200 px-2 py-1 text-xs font-semibold text-gray-800">
-                API Reference
-              </span>
-            </a>
-          </nav>
         </div>
 
         {/* Right Section: Search, Links, and Profile */}
         <div className="flex items-center space-x-6">
-          {/* Additional Links */}
-          <nav className="flex items-center space-x-4">
-            <a
-              href="/app-directory"
-              className="text-sm text-gray-600 transition hover:text-gray-800"
-            >
-              App directory
-            </a>
-            <a
-              href="/docs"
-              className="text-sm text-gray-600 transition hover:text-gray-800"
-            >
-              Docs
-            </a>
-            <a
-              href="/forum"
-              className="text-sm text-gray-600 transition hover:text-gray-800"
-            >
-              Forum
-            </a>
-            <a
-              href="/my-apps"
-              className="text-sm text-gray-600 transition hover:text-gray-800"
-            >
-              My apps
-            </a>
-          </nav>
-
           {/* Search */}
           <div className="relative">
             <input
