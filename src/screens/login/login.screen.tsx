@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { setAuthData } from '../../store/slices/authSlice';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import axios from 'axios';
 
 const Login: React.FC = () => {
   const dispatch = useDispatch();
@@ -24,24 +25,35 @@ const Login: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // setError(null); // Reset error state
-
+    // setError(null); // Reset error state if needed
+   
+  
     try {
-      const response = await postRequest('clientLogin', formData);
-      const { accessToken, user } = response;
+      const response = await axios.post('http://localhost:3030/gateway/ssologin', formData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      const { accessToken, user } = response.data;
+  
       dispatch(setAuthData({ accessToken, user }));
+  
       toast.success(`Login successful! Welcome ${user.name}`, {
         position: 'bottom-right',
         autoClose: 3000, // Closes automatically after 3 seconds
       });
-      navigate('/dashboard');
+  
+      navigate('/clients');
     } catch (err: any) {
-      console.error('Login failed:', err.message);
-      toast.error(`${err.message}`, {
+      console.error('Login failed:', err.response?.data?.message || err.message);
+  
+      toast.error(err.response?.data?.message || 'An error occurred while logging in.', {
         position: 'bottom-right',
         autoClose: 3000, // Closes automatically after 3 seconds
       });
-      // setError(err.message || 'An error occurred while logging in.');
+  
+      // setError(err.response?.data?.message || 'An error occurred while logging in.');
     }
   };
 

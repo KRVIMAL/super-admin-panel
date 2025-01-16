@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { format } from 'date-fns'
-
+import axios from 'axios';
 type Resource = 'users' | 'products'
 type Permission = 'read' | 'delete' | 'update'
 
@@ -184,28 +184,29 @@ export default function ClientCreationForm() {
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
+  
     try {
-      const response = await fetch('http://localhost:3000/gateway/createClient', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(userData),
-      })
-
-      if (!response.ok) {
-        throw new Error('Failed to create client')
-      }
-
-      const result = await response.json()
-      console.log('Client created:', result)
-      alert('Client created successfully')
+      const response = await axios.post(
+        'http://localhost:3030/gateway/createClient',
+        userData,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization:
+              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3N2NlZjM3MWQxYWZlYzhkYzljMGFhMCIsIm5hbWUiOiJNYWxhdiBOYWFnYXIiLCJlbWFpbCI6Im1hbGF2bmFnYXI5MEBnbWFpbC5jb20iLCJyb2xlIjpbImFkbWluIiwiZWRpdG9yIl0sImlhdCI6MTczNzAxOTQ0MiwiZXhwIjoxNzM3MDIzMDQyfQ.xuXkQNwCPVnz-XKwBmSFKer174u_m229gtJSuoD3ank',
+          },
+        }
+      );
+  
+      console.log('Client created:', response.data);
+      alert('Client created successfully');
     } catch (error) {
-      console.error('Error creating client:', error)
-      alert('Failed to create client')
+      console.error('Error creating client:', error);
+      alert('Failed to create client');
     }
-  }
+  };
+  
 
   return (
     <form onSubmit={handleSubmit} className="space-y-8">

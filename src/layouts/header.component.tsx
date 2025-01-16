@@ -17,7 +17,7 @@ const Header: React.FC = () => {
     dispatch(clearAuthData());
 
     // Redirect to login page
-    navigate('/');
+    navigate('/login');
   };
 
   const handleChangePassword = () => {
