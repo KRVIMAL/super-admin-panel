@@ -1,4 +1,5 @@
 import './App.css';
+import CreateClient from './layouts/CreateClient';
 import ProtectedRoute from './layouts/protected-route.component';
 import RolesAndPermissions from './layouts/RolesAndPermissions';
 import Dashboard from './screens/dashboard/dashboard.screen';
@@ -22,10 +23,17 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/create-client"
+          element={
+            <ProtectedRoute>
+              <CreateClient />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </Router>
   );
 }
 
 export default App;
-

@@ -5,9 +5,9 @@ import RolesAndPermissions from '../../layouts/RolesAndPermissions';
 
 const Dashboard: React.FC = () => {
   return (
-    <div className="flex h-screen flex-col bg-gray-50">
+    <div className="flex h-screen flex-col bg-gray-50 ">
       <Header />
-      <div className="flex">
+      <div className="flex h-full">
         <Sidebar />
         <RolesAndPermissions />
       </div>

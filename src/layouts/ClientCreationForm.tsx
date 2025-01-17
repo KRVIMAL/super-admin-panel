@@ -211,7 +211,7 @@ export default function ClientCreationForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-8">
       <div className="bg-white rounded-lg shadow p-6">
-        <h2 className="text-xl font-bold mb-4">Create Client</h2>
+        <h2 className="text-xl font-bold mb-4">Client Details</h2>
         <div className="space-y-4">
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
