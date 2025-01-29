@@ -29,7 +29,7 @@ const Login: React.FC = () => {
    
   
     try {
-      const response = await axios.post('http://localhost:3030/gateway/ssologin', formData, {
+      const response = await axios.post('http://localhost:3000/gateway/ssologin', formData, {
         headers: {
           'Content-Type': 'application/json',
         },

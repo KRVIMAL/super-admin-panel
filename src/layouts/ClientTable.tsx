@@ -1,6 +1,7 @@
-import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { store } from '../store';
 
 interface Client {
   _id: string;
@@ -8,6 +9,8 @@ interface Client {
   email: string;
   apiKey: string;
   apiKeyExpiresAt: string;
+  roles: string[];
+  permissionMatrix: any;
 }
 
 interface ClientTableProps {
@@ -19,6 +22,7 @@ const ClientTable: React.FC<ClientTableProps> = ({ searchQuery }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const itemsPerPage = 10;
+  const token = store.getState().auth.accessToken;
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,27 +32,30 @@ const ClientTable: React.FC<ClientTableProps> = ({ searchQuery }) => {
   const fetchClients = async () => {
     try {
       const response = await axios.get(
-        'http://localhost:3030/gateway/listClient',
+        'http://localhost:3000/gateway/listClient',
         {
           headers: {
             'Content-Type': 'application/json',
-            Authorization:'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3N2NlZjM3MWQxYWZlYzhkYzljMGFhMCIsIm5hbWUiOiJNYWxhdiBOYWFnYXIiLCJlbWFpbCI6Im1hbGF2bmFnYXI5MEBnbWFpbC5jb20iLCJyb2xlIjpbImFkbWluIiwiZWRpdG9yIl0sImlhdCI6MTczNzEwODQ0MSwiZXhwIjoxNzM3MTEyMDQxfQ.-VmhUx1rKt5JuZajXEtGJmI-BbxJjbrUeCyM0kA3bk4'
+            Authorization: `Bearer ${token}`
           },
         }
       );
       const data = await response.data;
-
-      if (Array.isArray(data)) {
-        setClients(data);
+      if (Array.isArray(data?.data)) {
+        setClients(data?.data);
       } else {
         console.error('Expected an array but got:', data);
-        setClients([]); // Set to an empty array if data is not an array
+        setClients([]);
       }
       setLoading(false);
     } catch (error) {
       console.error('Error fetching clients:', error);
       setLoading(false);
     }
+  };
+console.log({clients})
+  const handleEdit = (client: Client) => {
+    navigate(`/update-client/${client._id}`, { state: { client } });
   };
 
   // Filter clients based on search query
@@ -69,9 +76,7 @@ const ClientTable: React.FC<ClientTableProps> = ({ searchQuery }) => {
   };
 
   if (loading) {
-    return (
-      <div className="flex h-64 items-center justify-center">Loading...</div>
-    );
+    return <div className="flex h-64 items-center justify-center">Loading...</div>;
   }
 
   return (
@@ -102,6 +107,9 @@ const ClientTable: React.FC<ClientTableProps> = ({ searchQuery }) => {
               <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                 Expires At
               </th>
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                Actions
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200 bg-white">
@@ -114,6 +122,14 @@ const ClientTable: React.FC<ClientTableProps> = ({ searchQuery }) => {
                 </td>
                 <td className="whitespace-nowrap px-6 py-4">
                   {new Date(client.apiKeyExpiresAt).toLocaleDateString()}
+                </td>
+                <td className="whitespace-nowrap px-6 py-4">
+                  <button
+                    onClick={() => handleEdit(client)}
+                    className="rounded bg-blue-100 px-3 py-1 text-sm font-medium text-blue-600 hover:bg-blue-200"
+                  >
+                    Edit
+                  </button>
                 </td>
               </tr>
             ))}
@@ -152,3 +168,4 @@ const ClientTable: React.FC<ClientTableProps> = ({ searchQuery }) => {
 };
 
 export default ClientTable;
+
